@@ -1,6 +1,6 @@
 import { styled } from "styled-components";
 import { CopyRight } from "./Home";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { greenColor } from "../color";
 import { gql, useMutation, useQuery } from "@apollo/client";
 import useUser from "../useUser";
@@ -30,6 +30,7 @@ const SEE_PROFILE_MUTATION = gql`
 const SEE_MATCHES_MUTATION = gql`
   query seeMatches($id: [Int]!) {
     seeMatches(id: $id) {
+      id
       title
       date
       startTime
@@ -255,6 +256,7 @@ const Profile = () => {
   const [IsEditing, setIsEditing] = useState(false);
   const [avatarFile, setAvatarFile] = useState();
   const [newAvatar, setNewAvatar] = useState("");
+  const navigate = useNavigate();
 
   const { register, getValues } = useForm<FormData>();
 
@@ -318,7 +320,7 @@ const Profile = () => {
   };
 
   const date = new Date();
-  const number = date.getDate();
+  const number = date.getDate() > 10 ? date.getDate() : "0" + date.getDate();
   const month = date.getMonth() + 1;
   const year = date.getFullYear();
   const dateString = `${year}-${month}-${number}`;
@@ -428,7 +430,10 @@ const Profile = () => {
               {data2.seeMatches
                 ?.filter((e: any) => e.date >= dateString)
                 .map((value: any, index: number) => (
-                  <div key={index}>
+                  <div
+                    key={index}
+                    onClick={() => navigate(`/match/${value.id}`)}
+                  >
                     <span>{value.title}</span>
                     <span>{value.isSingle ? "단식" : "복식"}</span>
                     <span>{value.date}</span>
@@ -451,7 +456,10 @@ const Profile = () => {
               {data2.seeMatches
                 ?.filter((e: any) => e.date < dateString)
                 .map((value: any, index: number) => (
-                  <div key={index}>
+                  <div
+                    key={index}
+                    onClick={() => navigate(`/match/${value.id}`)}
+                  >
                     <span>{value.title}</span>
                     <span>{value.isSingle ? "단식" : "복식"}</span>
                     <span>{value.date}</span>
