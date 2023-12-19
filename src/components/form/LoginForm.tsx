@@ -31,11 +31,12 @@ export const Overlay = styled(motion.div)`
   display: flex;
   justify-content: center;
   align-items: center;
+  z-index: 100;
 `;
 
 export const LoginBox = styled.div`
   width: 600px;
-  height: 750px;
+  height: 650px;
   border-radius: 7px;
   background-color: white;
   overflow: scroll;
@@ -68,7 +69,7 @@ export const LoginBoxHeader = styled.div`
 
 const LoginBoxContent = styled.div`
   width: 520px;
-  height: 650px;
+  height: 610px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -78,7 +79,7 @@ const LoginBoxContent = styled.div`
 
 const Div = styled.div`
   width: 100%;
-  height: 220px;
+  height: 200px;
   display: flex;
   justify-content: center;
   flex-direction: column;

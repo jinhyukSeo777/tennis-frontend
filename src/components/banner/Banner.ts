@@ -2,7 +2,7 @@ import styled from "styled-components";
 
 export const DarkBanner = styled.div<{ url: string }>`
   width: 100%;
-  height: 570px;
+  height: 500px;
   background-image: linear-gradient(rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.1)),
     url(${({ url }) => url});
   background-size: cover;
@@ -27,7 +27,7 @@ export const DarkBanner = styled.div<{ url: string }>`
 
 export const LightBanner = styled.div<{ url: string }>`
   width: 100%;
-  height: 570px;
+  height: 500px;
   background-image: url(${({ url }) => url});
   background-size: cover;
   background-position: center;

@@ -14,8 +14,8 @@ import { useForm } from "react-hook-form";
 import { Map, MapMarker } from "react-kakao-maps-sdk";
 
 const LocationBox = styled(LoginBox)`
-  width: 1100px;
-  height: 740px;
+  width: 1000px;
+  height: 650px;
   position: relative;
 `;
 
@@ -26,7 +26,7 @@ const LocationBoxHeader = styled(LoginBoxHeader)`
 
 const LocationMap = styled.div`
   width: 100%;
-  height: 580px;
+  height: 500px;
   border-bottom: 2px solid rgba(0, 0, 0, 0.1);
   display: flex;
   flex-direction: column;
@@ -183,7 +183,7 @@ const LocationForm = () => {
         <LocationMap>
           <Map
             center={{ lat: center.lat, lng: center.lng }}
-            style={{ width: "1100px", height: "580px" }}
+            style={{ width: "1000px", height: "500px" }}
             level={7}
           >
             {locations.map((value, index) => (
