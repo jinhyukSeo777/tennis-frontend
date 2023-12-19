@@ -17,8 +17,8 @@ import { greenColor } from "../color";
 import { gql, useMutation, useQuery } from "@apollo/client";
 import useUser from "../useUser";
 import MatchInfoProfile from "../components/MatchInfoProfile";
-import Loader from "../components/Loader";
 import { Helmet } from "react-helmet-async";
+import Loader from "../components/Loader";
 const logo1 = require("../img/1.jpg");
 const vsImg = require("../img/vs.png");
 

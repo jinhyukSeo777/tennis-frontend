@@ -1,21 +1,21 @@
 import { styled } from "styled-components";
 import { DarkBanner } from "../components/banner/Banner";
 import DateSelector from "../components/DateSelector";
-import MatchForm from "../components/form/MatchForm";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../store";
 import { CopyRight } from "./Home";
-import LocationForm from "../components/form/LocationForm";
-import { useState } from "react";
+import { lazy, useState } from "react";
 import { faLocationDot, faUser } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { toggleEnroll } from "../counterSlice";
 import { greenColor } from "../color";
 import { useNavigate, useParams } from "react-router-dom";
 import { gql, useQuery } from "@apollo/client";
-import Loader from "../components/Loader";
 import useUser from "../useUser";
 import { Helmet } from "react-helmet-async";
+import Loader from "../components/Loader";
+const MatchForm = lazy(() => import("../components/form/MatchForm"));
+const LocationForm = lazy(() => import("../components/Loader"));
 const logo4 = require("../img/4.jpg");
 
 const SEARCH_MATCHES_MUTATION = gql`

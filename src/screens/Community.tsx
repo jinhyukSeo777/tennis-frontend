@@ -6,20 +6,20 @@ import {
   faEye,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useState } from "react";
+import { lazy, useState } from "react";
 import { useForm } from "react-hook-form";
 import { CopyRight } from "./Home";
 import { useNavigate, useParams } from "react-router-dom";
 import { greenColor } from "../color";
 import { gql, useMutation, useQuery } from "@apollo/client";
-import Writting from "../components/form/Writting";
 import useUser from "../useUser";
 import { useDispatch, useSelector } from "react-redux";
 import { toggleCreateFeed } from "../counterSlice";
 import { RootState } from "../store";
-import CreateFeedForm from "../components/form/CreateFeedForm";
-import Loader from "../components/Loader";
 import { Helmet } from "react-helmet-async";
+import Loader from "../components/Loader";
+const CreateFeedForm = lazy(() => import("../components/form/CreateFeedForm"));
+const Writting = lazy(() => import("../components/form/Writting"));
 const logo4 = require("../img/4.jpg");
 
 const SEE_FEEDS_MUTATION = gql`
