@@ -5,6 +5,7 @@ import InfiniteScroll from "react-infinite-scroll-component";
 import { gql, useQuery } from "@apollo/client";
 import { useNavigate } from "react-router-dom";
 import LoaderComponent from "../components/Loader";
+import { Helmet } from "react-helmet-async";
 const logo1 = require("../img/1.jpg");
 const logo5 = require("../img/5.jpg");
 const gold = require("../img/gold.png");
@@ -196,35 +197,85 @@ const Ranking = () => {
   return (
     <>
       {data !== undefined ? (
-        <InfiniteScroll
-          dataLength={length}
-          next={fetchData}
-          hasMore={hasMore}
-          loader={
-            <Loader>
-              <span>Loading...</span>
-            </Loader>
-          }
-          endMessage={<CopyRight>Copyright ⓒ jinhyukSeo777 2023</CopyRight>}
-        >
-          <Container>
-            <LightBanner url={logo5} />
-            <RankerBoxs>
-              {data?.seeRanking.slice(0, 3).map((value: any, idx: number) => (
-                <RankerBox key={idx}>
-                  <div>
-                    <img src={medal[idx]} alt={value.username} />
-                    <span>{idx + 1}위</span>
-                  </div>
-                  <div>
-                    <LeftBox
-                      url={value.avatar}
+        <>
+          <Helmet>
+            <title>Ranking</title>
+            <meta property="og:site_name" content="tennis" />
+            <meta property="og:title" content="ranking" />
+            <meta
+              property="og:url"
+              content="https://tennis-frontend-plum.vercel.app/"
+            />
+            <meta
+              property="og:description"
+              content="tennis web for portfolio"
+            />
+          </Helmet>
+          <InfiniteScroll
+            dataLength={length}
+            next={fetchData}
+            hasMore={hasMore}
+            loader={
+              <Loader>
+                <span>Loading...</span>
+              </Loader>
+            }
+            endMessage={<CopyRight>Copyright ⓒ jinhyukSeo777 2023</CopyRight>}
+          >
+            <Container>
+              <LightBanner url={logo5} />
+              <RankerBoxs>
+                {data?.seeRanking.slice(0, 3).map((value: any, idx: number) => (
+                  <RankerBox key={idx}>
+                    <div>
+                      <img src={medal[idx]} alt={value.username} />
+                      <span>{idx + 1}위</span>
+                    </div>
+                    <div>
+                      <LeftBox
+                        url={value.avatar}
+                        onClick={() => navigate(`/profile/${value.id}`)}
+                      >
+                        <div></div>
+                        <span>{value.username}</span>
+                      </LeftBox>
+                      <RightBox>
+                        <span>
+                          {value.totalWin}승 {value.totalLose}패
+                        </span>
+                        <span>{value.score}점</span>
+                        <span>
+                          {value.score === 0
+                            ? "0"
+                            : (
+                                (value.totalWin /
+                                  (value.totalWin + value.totalLose)) *
+                                100
+                              ).toFixed(2)}
+                          %
+                        </span>
+                      </RightBox>
+                    </div>
+                  </RankerBox>
+                ))}
+              </RankerBoxs>
+              <RankingBoxs>
+                <RankingBox>
+                  <span>#</span>
+                  <span>닉네임</span>
+                  <span>전적</span>
+                  <span>점수</span>
+                  <span>승률</span>
+                </RankingBox>
+                {data?.seeRanking
+                  .slice(3, 3 + length)
+                  .map((value: any, index: number) => (
+                    <RankingBox
+                      key={index}
                       onClick={() => navigate(`/profile/${value.id}`)}
                     >
-                      <div></div>
+                      <span>{3 + 1 + index}</span>
                       <span>{value.username}</span>
-                    </LeftBox>
-                    <RightBox>
                       <span>
                         {value.totalWin}승 {value.totalLose}패
                       </span>
@@ -239,47 +290,12 @@ const Ranking = () => {
                             ).toFixed(2)}
                         %
                       </span>
-                    </RightBox>
-                  </div>
-                </RankerBox>
-              ))}
-            </RankerBoxs>
-            <RankingBoxs>
-              <RankingBox>
-                <span>#</span>
-                <span>닉네임</span>
-                <span>전적</span>
-                <span>점수</span>
-                <span>승률</span>
-              </RankingBox>
-              {data?.seeRanking
-                .slice(3, 3 + length)
-                .map((value: any, index: number) => (
-                  <RankingBox
-                    key={index}
-                    onClick={() => navigate(`/profile/${value.id}`)}
-                  >
-                    <span>{3 + 1 + index}</span>
-                    <span>{value.username}</span>
-                    <span>
-                      {value.totalWin}승 {value.totalLose}패
-                    </span>
-                    <span>{value.score}점</span>
-                    <span>
-                      {value.score === 0
-                        ? "0"
-                        : (
-                            (value.totalWin /
-                              (value.totalWin + value.totalLose)) *
-                            100
-                          ).toFixed(2)}
-                      %
-                    </span>
-                  </RankingBox>
-                ))}
-            </RankingBoxs>
-          </Container>
-        </InfiniteScroll>
+                    </RankingBox>
+                  ))}
+              </RankingBoxs>
+            </Container>
+          </InfiniteScroll>
+        </>
       ) : (
         <LoaderComponent />
       )}

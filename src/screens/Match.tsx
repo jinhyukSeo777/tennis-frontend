@@ -15,6 +15,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { gql, useQuery } from "@apollo/client";
 import Loader from "../components/Loader";
 import useUser from "../useUser";
+import { Helmet } from "react-helmet-async";
 const logo4 = require("../img/4.jpg");
 
 const SEARCH_MATCHES_MUTATION = gql`
@@ -231,122 +232,137 @@ const Match = () => {
   return (
     <>
       {data ? (
-        <Container>
-          <DarkBanner url={logo4}>
-            <span>Matching</span>
-            <span>Check out the Matching schedule!</span>
-          </DarkBanner>
-          <DateSelector dateString={`${number}`} />
-          <Content>
-            <div
-              style={{
-                display: "flex",
-                justifyContent: "space-between",
-                width: "100%",
-                height: "70px",
-                borderBottom: " 1px solid black",
-              }}
-            >
-              <SelectsBox>
-                <Select onChange={onLocationChange}>
-                  {locationList.map((value, index) => (
-                    <option key={index} value={value}>
-                      {value}
-                    </option>
-                  ))}
-                </Select>
-                <Select onChange={onTypeChange}>
-                  {typeList.map((value, index) => (
-                    <option key={index} value={value}>
-                      {value}
-                    </option>
-                  ))}
-                </Select>
-                <Select onChange={onSideChange}>
-                  {sideList.map((value, index) => (
-                    <option key={index} value={value}>
-                      {value}
-                    </option>
-                  ))}
-                </Select>
-              </SelectsBox>
-              {myData ? (
-                <EnrollButton onClick={() => dispatch(toggleEnroll())}>
-                  매치등록
-                </EnrollButton>
-              ) : null}
-            </div>
-            {data.searchMatches
-              .filter(
-                (v: any) =>
-                  (storeName === "전체" || v.storeName === storeName) &&
-                  (isSingle === "전체" ||
-                    (isSingle === "단식"
-                      ? v.isSingle === true
-                      : v.isSingle === false)) &&
-                  (isInside === "전체" ||
-                    (isInside === "실내"
-                      ? v.isInside === true
-                      : v.isInside === false))
-              )
-              .map((value: any, index: number) => {
-                const isClosed =
-                  (value.isSingle && value.users.length === 2) ||
-                  (!value.isSingle && value.users.length === 4);
-                return (
-                  <MatchBox
-                    key={index}
-                    onClick={() => navigate(`/match/${value.id}`)}
-                  >
-                    <div>
-                      <span>
-                        {value.startTime}~{value.endTime}
-                      </span>
-                    </div>
-                    <div>
-                      <span>
-                        <FontAwesomeIcon
-                          style={{ opacity: "0.8" }}
-                          icon={faLocationDot}
-                        />{" "}
-                        {value.storeName}
-                      </span>
-                      <span>
-                        {value.isInside ? "실내" : "야외"}{" "}
-                        <FontAwesomeIcon
-                          style={{ opacity: "0.8" }}
-                          icon={faUser}
-                        />{" "}
-                        {value.users.length}/{value.isSingle ? "2" : "4"}
-                      </span>
-                    </div>
-                    <div>
-                      <span>테니스 매치</span>
-                      <span>
-                        <FontAwesomeIcon
-                          style={{ opacity: "0.8" }}
-                          icon={faUser}
-                        />{" "}
-                        {value.user.username}
-                      </span>
-                    </div>
-                    <div>
-                      <div
-                        style={{
-                          background: isClosed ? "#cf4c4c" : greenColor,
-                        }}
-                      >
-                        {isClosed ? "신청마감" : "신청가능"}
+        <>
+          <Helmet>
+            <title>Match</title>
+            <meta property="og:site_name" content="tennis" />
+            <meta property="og:title" content="match" />
+            <meta
+              property="og:url"
+              content="https://tennis-frontend-plum.vercel.app/"
+            />
+            <meta
+              property="og:description"
+              content="tennis web for portfolio"
+            />
+          </Helmet>
+          <Container>
+            <DarkBanner url={logo4}>
+              <span>Matching</span>
+              <span>Check out the Matching schedule!</span>
+            </DarkBanner>
+            <DateSelector dateString={`${number}`} />
+            <Content>
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  width: "100%",
+                  height: "70px",
+                  borderBottom: " 1px solid black",
+                }}
+              >
+                <SelectsBox>
+                  <Select onChange={onLocationChange}>
+                    {locationList.map((value, index) => (
+                      <option key={index} value={value}>
+                        {value}
+                      </option>
+                    ))}
+                  </Select>
+                  <Select onChange={onTypeChange}>
+                    {typeList.map((value, index) => (
+                      <option key={index} value={value}>
+                        {value}
+                      </option>
+                    ))}
+                  </Select>
+                  <Select onChange={onSideChange}>
+                    {sideList.map((value, index) => (
+                      <option key={index} value={value}>
+                        {value}
+                      </option>
+                    ))}
+                  </Select>
+                </SelectsBox>
+                {myData ? (
+                  <EnrollButton onClick={() => dispatch(toggleEnroll())}>
+                    매치등록
+                  </EnrollButton>
+                ) : null}
+              </div>
+              {data.searchMatches
+                .filter(
+                  (v: any) =>
+                    (storeName === "전체" || v.storeName === storeName) &&
+                    (isSingle === "전체" ||
+                      (isSingle === "단식"
+                        ? v.isSingle === true
+                        : v.isSingle === false)) &&
+                    (isInside === "전체" ||
+                      (isInside === "실내"
+                        ? v.isInside === true
+                        : v.isInside === false))
+                )
+                .map((value: any, index: number) => {
+                  const isClosed =
+                    (value.isSingle && value.users.length === 2) ||
+                    (!value.isSingle && value.users.length === 4);
+                  return (
+                    <MatchBox
+                      key={index}
+                      onClick={() => navigate(`/match/${value.id}`)}
+                    >
+                      <div>
+                        <span>
+                          {value.startTime}~{value.endTime}
+                        </span>
                       </div>
-                    </div>
-                  </MatchBox>
-                );
-              })}
-          </Content>
-          {enroll ? <MatchForm /> : null}
-          {isLocation ? <LocationForm /> : null}
-          <CopyRight>Copyright ⓒ jinhyukSeo777 2023</CopyRight>
-        </Container>
+                      <div>
+                        <span>
+                          <FontAwesomeIcon
+                            style={{ opacity: "0.8" }}
+                            icon={faLocationDot}
+                          />{" "}
+                          {value.storeName}
+                        </span>
+                        <span>
+                          {value.isInside ? "실내" : "야외"}{" "}
+                          <FontAwesomeIcon
+                            style={{ opacity: "0.8" }}
+                            icon={faUser}
+                          />{" "}
+                          {value.users.length}/{value.isSingle ? "2" : "4"}
+                        </span>
+                      </div>
+                      <div>
+                        <span>테니스 매치</span>
+                        <span>
+                          <FontAwesomeIcon
+                            style={{ opacity: "0.8" }}
+                            icon={faUser}
+                          />{" "}
+                          {value.user.username}
+                        </span>
+                      </div>
+                      <div>
+                        <div
+                          style={{
+                            background: isClosed ? "#cf4c4c" : greenColor,
+                          }}
+                        >
+                          {isClosed ? "신청마감" : "신청가능"}
+                        </div>
+                      </div>
+                    </MatchBox>
+                  );
+                })}
+            </Content>
+            {enroll ? <MatchForm /> : null}
+            {isLocation ? <LocationForm /> : null}
+            <CopyRight>Copyright ⓒ jinhyukSeo777 2023</CopyRight>
+          </Container>
+        </>
       ) : (
         <Loader />
       )}

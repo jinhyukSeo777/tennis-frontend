@@ -8,6 +8,7 @@ import { store } from "./store";
 import ScrollToTop from "./components/ScrollTop";
 import { ApolloProvider } from "@apollo/client";
 import { client } from "./apollo";
+import { HelmetProvider } from "react-helmet-async";
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
@@ -17,9 +18,11 @@ root.render(
     <React.StrictMode>
       <Provider store={store}>
         <BrowserRouter>
-          <Reset />
-          <ScrollToTop />
-          <App />
+          <HelmetProvider>
+            <Reset />
+            <ScrollToTop />
+            <App />
+          </HelmetProvider>
         </BrowserRouter>
       </Provider>
     </React.StrictMode>

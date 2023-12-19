@@ -1,6 +1,7 @@
 import { styled } from "styled-components";
 import HomeBanner from "../components/banner/HomeBanner";
 import { useNavigate } from "react-router-dom";
+import { Helmet } from "react-helmet-async";
 const logo2 = require("../img/1.jpg");
 const logo3 = require("../img/2.jpg");
 const logo1 = require("../img/3.jpg");
@@ -199,76 +200,88 @@ const Home = () => {
   const year = date.getFullYear();
 
   return (
-    <Container>
-      <HomeBanner />
-      <Content>
-        <TextBox1>
-          <span>GOGOTENNIS</span>
-          <span>소셜 테니스 고고테니스</span>
-        </TextBox1>
-        <TextBox2>
-          <div>
-            <span>내가 하고 싶을 때</span>
-            <span>매일매일 아침부터 밤까지</span>
-          </div>
-          <div>
-            <span>내가 하고 싶은 곳에서</span>
-            <span>집 앞, 학교, 회사 여행 간 도시 어디서나</span>
-          </div>
-          <div>
-            <span>내가 하고 싶은 사람들과</span>
-            <span>혼자, 친구랑, 함께, 새로운 사람들과</span>
-          </div>
-        </TextBox2>
-        <TextBox3>
-          <span>HOW TO</span>
-          <span>고고테니스 이용방법</span>
-        </TextBox3>
-        <PhotoBox></PhotoBox>
-        <TextBox4>
-          <div>
-            <span>친절한 매칭시스템</span>
-            <span>
-              다른 사람들과의 전적을 확인하고 원하는 장소, 날짜를 선택해 매치를
-              진행하세요
-            </span>
-          </div>
-          <div>
-            <span>건강한 테니스 문화</span>
-            <span>
-              경쟁보다 배려와 재미를 추구합니다 신고 제도로 비매너 유저 참가를
-              제한해요
-            </span>
-          </div>
-          <div>
-            <span>레벨 데이터로 막상막하 매치</span>
-            <span>
-              비슷한 레벨의 사람들과 경기를 진행하여 팽팽하고 스릴넘치는 경기를
-              즐겨보세요
-            </span>
-          </div>
-        </TextBox4>
-        <GridBox>
-          <div></div>
-          <div>
-            <span>"일취월장한 실력으로 대회에 도전해 보세요"</span>
-            <span>일일 테니스 매치 고고테니스</span>
-          </div>
-          <div>
-            <span>지금 가입하고 언제든 할 수 있어요</span>
-            <span>일일 테니스 매치 고고테니스</span>
-            <span
-              onClick={() => navigate(`/matching/${year}${month}${number}`)}
-            >
-              매치 보러가기
-            </span>
+    <>
+      <Helmet>
+        <title>Home</title>
+        <meta property="og:site_name" content="tennis" />
+        <meta property="og:title" content="home" />
+        <meta
+          property="og:url"
+          content="https://tennis-frontend-plum.vercel.app/"
+        />
+        <meta property="og:description" content="tennis web for portfolio" />
+      </Helmet>
+      <Container>
+        <HomeBanner />
+        <Content>
+          <TextBox1>
+            <span>GOGOTENNIS</span>
+            <span>소셜 테니스 고고테니스</span>
+          </TextBox1>
+          <TextBox2>
+            <div>
+              <span>내가 하고 싶을 때</span>
+              <span>매일매일 아침부터 밤까지</span>
+            </div>
+            <div>
+              <span>내가 하고 싶은 곳에서</span>
+              <span>집 앞, 학교, 회사 여행 간 도시 어디서나</span>
+            </div>
+            <div>
+              <span>내가 하고 싶은 사람들과</span>
+              <span>혼자, 친구랑, 함께, 새로운 사람들과</span>
+            </div>
+          </TextBox2>
+          <TextBox3>
+            <span>HOW TO</span>
+            <span>고고테니스 이용방법</span>
+          </TextBox3>
+          <PhotoBox></PhotoBox>
+          <TextBox4>
+            <div>
+              <span>친절한 매칭시스템</span>
+              <span>
+                다른 사람들과의 전적을 확인하고 원하는 장소, 날짜를 선택해
+                매치를 진행하세요
+              </span>
+            </div>
+            <div>
+              <span>건강한 테니스 문화</span>
+              <span>
+                경쟁보다 배려와 재미를 추구합니다 신고 제도로 비매너 유저 참가를
+                제한해요
+              </span>
+            </div>
+            <div>
+              <span>레벨 데이터로 막상막하 매치</span>
+              <span>
+                비슷한 레벨의 사람들과 경기를 진행하여 팽팽하고 스릴넘치는
+                경기를 즐겨보세요
+              </span>
+            </div>
+          </TextBox4>
+          <GridBox>
             <div></div>
-          </div>
-          <div></div>
-        </GridBox>
-      </Content>
-      <CopyRight>Copyright ⓒ jinhyukSeo777 2023</CopyRight>
-    </Container>
+            <div>
+              <span>"일취월장한 실력으로 대회에 도전해 보세요"</span>
+              <span>일일 테니스 매치 고고테니스</span>
+            </div>
+            <div>
+              <span>지금 가입하고 언제든 할 수 있어요</span>
+              <span>일일 테니스 매치 고고테니스</span>
+              <span
+                onClick={() => navigate(`/matching/${year}${month}${number}`)}
+              >
+                매치 보러가기
+              </span>
+              <div></div>
+            </div>
+            <div></div>
+          </GridBox>
+        </Content>
+        <CopyRight>Copyright ⓒ jinhyukSeo777 2023</CopyRight>
+      </Container>
+    </>
   );
 };
 

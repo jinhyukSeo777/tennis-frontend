@@ -19,6 +19,7 @@ import { toggleCreateFeed } from "../counterSlice";
 import { RootState } from "../store";
 import CreateFeedForm from "../components/form/CreateFeedForm";
 import Loader from "../components/Loader";
+import { Helmet } from "react-helmet-async";
 const logo4 = require("../img/4.jpg");
 
 const SEE_FEEDS_MUTATION = gql`
@@ -371,171 +372,188 @@ const Community = () => {
   return (
     <>
       {data && hotFeeds ? (
-        <Container>
-          <LightBanner url={logo4}>
-            <span>Community</span>
-            <span>come and join!</span>
-          </LightBanner>
-          <Content long={id ? 1 : 0}>
-            <LeftBox>
-              <LeftBoxOptions isclicked={0}>
-                <span>커뮤니티</span>
-              </LeftBoxOptions>
-              <LeftBoxOptions
-                onClick={() => leftBoxClicked(0)}
-                isclicked={clickedNumber === 0 ? 1 : 0}
-              >
-                <span>자유게시판</span>
-              </LeftBoxOptions>
-              <LeftBoxOptions
-                onClick={() => leftBoxClicked(1)}
-                isclicked={clickedNumber === 1 ? 1 : 0}
-              >
-                <span>공지사항</span>
-              </LeftBoxOptions>
-              <LeftBoxOptions
-                onClick={() => leftBoxClicked(2)}
-                isclicked={clickedNumber === 2 ? 1 : 0}
-              >
-                <span>Q&A</span>
-              </LeftBoxOptions>
-            </LeftBox>
-            {id ? (
-              <Writting></Writting>
-            ) : (
-              <MiddleBox>
-                <MiddleTopBox>
-                  <InputBox>
-                    <form onSubmit={handleSubmit(onKeywordSubmit)}>
-                      <Input
-                        {...register("keyword")}
-                        type="text"
-                        placeholder="제목, 작성자로 검색"
-                      />
-                    </form>
-                    <GlassFontAwesomeIcon
-                      onClick={handleSubmit(onKeywordSubmit)}
-                      icon={faMagnifyingGlass}
-                    />
-                  </InputBox>
-                  {myData ? (
-                    <Button onClick={() => dispatch(toggleCreateFeed())}>
-                      글쓰기
-                    </Button>
-                  ) : null}
-                </MiddleTopBox>
-                <MiddleBottomBox>
-                  {searched
-                    ? searchedFeeds
-                        .slice((page - 1) * 10, (page - 1) * 10 + 10)
-                        .map((value: any, index: number) => (
-                          <Post
-                            onClick={() => navigate(`/community/${value.id}`)}
-                            key={index}
-                          >
-                            <div>
-                              <span>{calDate(value.createdAt)}</span>
-                            </div>
-                            <div>{value.title}</div>
-                            <div>
-                              <div
-                                style={{
-                                  display: "flex",
-                                  alignItems: "center",
-                                }}
-                              >
-                                <Avatar url={value.user.avatar} />
-                                <span>{value.user.username}</span>
-                              </div>
-                              <div>
-                                <span>
-                                  <FontAwesomeIcons icon={faComment} />{" "}
-                                  {value.commentNum}
-                                </span>
-                                <span>
-                                  <FontAwesomeIcons icon={faEye} /> {value.see}
-                                </span>
-                              </div>
-                            </div>
-                          </Post>
-                        ))
-                    : data.seeFeeds
-                        .slice((page - 1) * 10, (page - 1) * 10 + 10)
-                        .map((value: any, index: number) => (
-                          <Post
-                            onClick={() => navigate(`/community/${value.id}`)}
-                            key={index}
-                          >
-                            <div>
-                              <span>{calDate(value.createdAt)}</span>
-                            </div>
-                            <div>{value.title}</div>
-                            <div>
-                              <div
-                                style={{
-                                  display: "flex",
-                                  alignItems: "center",
-                                }}
-                              >
-                                <Avatar url={value.user.avatar} />
-                                <span>{value.user.username}</span>
-                              </div>
-                              <div>
-                                <span>
-                                  <FontAwesomeIcons icon={faComment} />{" "}
-                                  {value.commentNum}
-                                </span>
-                                <span>
-                                  <FontAwesomeIcons icon={faEye} /> {value.see}
-                                </span>
-                              </div>
-                            </div>
-                          </Post>
-                        ))}
-                </MiddleBottomBox>
-              </MiddleBox>
-            )}
-            <RightBox>
-              <div>
-                <span>GOGO 화제글</span>
-              </div>
-              {hotFeeds.seeHotFeeds.map((value: any, index: number) => (
-                <HotPost
-                  onClick={() => navigate(`/community/${value.id}`)}
-                  key={index}
+        <>
+          <Helmet>
+            <title>Community</title>
+            <meta property="og:site_name" content="tennis" />
+            <meta property="og:title" content="community" />
+            <meta
+              property="og:url"
+              content="https://tennis-frontend-plum.vercel.app/"
+            />
+            <meta
+              property="og:description"
+              content="tennis web for portfolio"
+            />
+          </Helmet>
+          <Container>
+            <LightBanner url={logo4}>
+              <span>Community</span>
+              <span>come and join!</span>
+            </LightBanner>
+            <Content long={id ? 1 : 0}>
+              <LeftBox>
+                <LeftBoxOptions isclicked={0}>
+                  <span>커뮤니티</span>
+                </LeftBoxOptions>
+                <LeftBoxOptions
+                  onClick={() => leftBoxClicked(0)}
+                  isclicked={clickedNumber === 0 ? 1 : 0}
                 >
-                  <div>
-                    <span>{value.title}</span>
-                  </div>
-                  <div>
-                    <span>{value.user.username}</span>
-                    <span>
-                      <FontAwesomeIcons icon={faComment} /> {value.commentNum}
-                    </span>
-                    <span>
-                      <FontAwesomeIcons icon={faEye} /> {value.see}
-                    </span>
-                  </div>
-                </HotPost>
-              ))}
-            </RightBox>
-          </Content>
-          {id ? null : (
-            <PageDivs>
-              {arr.map((value, index) => {
-                return (
-                  <PageDiv key={index} onClick={() => pageClicked(value)}>
-                    {value}
-                  </PageDiv>
-                );
-              })}
-            </PageDivs>
-          )}
-          <CopyRight style={{ marginTop: "160px" }}>
-            Copyright ⓒ jinhyukSeo777 2023
-          </CopyRight>
-          {createFeed ? <CreateFeedForm /> : null}
-        </Container>
+                  <span>자유게시판</span>
+                </LeftBoxOptions>
+                <LeftBoxOptions
+                  onClick={() => leftBoxClicked(1)}
+                  isclicked={clickedNumber === 1 ? 1 : 0}
+                >
+                  <span>공지사항</span>
+                </LeftBoxOptions>
+                <LeftBoxOptions
+                  onClick={() => leftBoxClicked(2)}
+                  isclicked={clickedNumber === 2 ? 1 : 0}
+                >
+                  <span>Q&A</span>
+                </LeftBoxOptions>
+              </LeftBox>
+              {id ? (
+                <Writting></Writting>
+              ) : (
+                <MiddleBox>
+                  <MiddleTopBox>
+                    <InputBox>
+                      <form onSubmit={handleSubmit(onKeywordSubmit)}>
+                        <Input
+                          {...register("keyword")}
+                          type="text"
+                          placeholder="제목, 작성자로 검색"
+                        />
+                      </form>
+                      <GlassFontAwesomeIcon
+                        onClick={handleSubmit(onKeywordSubmit)}
+                        icon={faMagnifyingGlass}
+                      />
+                    </InputBox>
+                    {myData ? (
+                      <Button onClick={() => dispatch(toggleCreateFeed())}>
+                        글쓰기
+                      </Button>
+                    ) : null}
+                  </MiddleTopBox>
+                  <MiddleBottomBox>
+                    {searched
+                      ? searchedFeeds
+                          .slice((page - 1) * 10, (page - 1) * 10 + 10)
+                          .map((value: any, index: number) => (
+                            <Post
+                              onClick={() => navigate(`/community/${value.id}`)}
+                              key={index}
+                            >
+                              <div>
+                                <span>{calDate(value.createdAt)}</span>
+                              </div>
+                              <div>{value.title}</div>
+                              <div>
+                                <div
+                                  style={{
+                                    display: "flex",
+                                    alignItems: "center",
+                                  }}
+                                >
+                                  <Avatar url={value.user.avatar} />
+                                  <span>{value.user.username}</span>
+                                </div>
+                                <div>
+                                  <span>
+                                    <FontAwesomeIcons icon={faComment} />{" "}
+                                    {value.commentNum}
+                                  </span>
+                                  <span>
+                                    <FontAwesomeIcons icon={faEye} />{" "}
+                                    {value.see}
+                                  </span>
+                                </div>
+                              </div>
+                            </Post>
+                          ))
+                      : data.seeFeeds
+                          .slice((page - 1) * 10, (page - 1) * 10 + 10)
+                          .map((value: any, index: number) => (
+                            <Post
+                              onClick={() => navigate(`/community/${value.id}`)}
+                              key={index}
+                            >
+                              <div>
+                                <span>{calDate(value.createdAt)}</span>
+                              </div>
+                              <div>{value.title}</div>
+                              <div>
+                                <div
+                                  style={{
+                                    display: "flex",
+                                    alignItems: "center",
+                                  }}
+                                >
+                                  <Avatar url={value.user.avatar} />
+                                  <span>{value.user.username}</span>
+                                </div>
+                                <div>
+                                  <span>
+                                    <FontAwesomeIcons icon={faComment} />{" "}
+                                    {value.commentNum}
+                                  </span>
+                                  <span>
+                                    <FontAwesomeIcons icon={faEye} />{" "}
+                                    {value.see}
+                                  </span>
+                                </div>
+                              </div>
+                            </Post>
+                          ))}
+                  </MiddleBottomBox>
+                </MiddleBox>
+              )}
+              <RightBox>
+                <div>
+                  <span>GOGO 화제글</span>
+                </div>
+                {hotFeeds.seeHotFeeds.map((value: any, index: number) => (
+                  <HotPost
+                    onClick={() => navigate(`/community/${value.id}`)}
+                    key={index}
+                  >
+                    <div>
+                      <span>{value.title}</span>
+                    </div>
+                    <div>
+                      <span>{value.user.username}</span>
+                      <span>
+                        <FontAwesomeIcons icon={faComment} /> {value.commentNum}
+                      </span>
+                      <span>
+                        <FontAwesomeIcons icon={faEye} /> {value.see}
+                      </span>
+                    </div>
+                  </HotPost>
+                ))}
+              </RightBox>
+            </Content>
+            {id ? null : (
+              <PageDivs>
+                {arr.map((value, index) => {
+                  return (
+                    <PageDiv key={index} onClick={() => pageClicked(value)}>
+                      {value}
+                    </PageDiv>
+                  );
+                })}
+              </PageDivs>
+            )}
+            <CopyRight style={{ marginTop: "160px" }}>
+              Copyright ⓒ jinhyukSeo777 2023
+            </CopyRight>
+            {createFeed ? <CreateFeedForm /> : null}
+          </Container>
+        </>
       ) : (
         <Loader />
       )}

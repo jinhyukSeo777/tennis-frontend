@@ -18,6 +18,7 @@ import { gql, useMutation, useQuery } from "@apollo/client";
 import useUser from "../useUser";
 import MatchInfoProfile from "../components/MatchInfoProfile";
 import Loader from "../components/Loader";
+import { Helmet } from "react-helmet-async";
 const logo1 = require("../img/1.jpg");
 const vsImg = require("../img/vs.png");
 
@@ -364,186 +365,201 @@ const MatchInfo = () => {
   return (
     <>
       {data && data2 ? (
-        <Container>
-          <LightBanner url={logo1} />
-          <Content>
-            <SummaryBox>
-              <div>
-                <span>
-                  <FontAwesomeIcon icon={faCalendar} />
-                </span>
-                <span>{data?.seeMatch.date}</span>
-              </div>
-              <div>
-                <span>
-                  <FontAwesomeIcon icon={faClock} />
-                </span>
-                <span>
-                  {data?.seeMatch.startTime} ~ {data?.seeMatch.endTime}
-                </span>
-              </div>
-              <div>
-                <span>
-                  <FontAwesomeIcon icon={faPerson} />
-                </span>
-                <span>{data?.seeMatch.isSingle ? "단식" : "복식"}</span>
-              </div>
-              <div>
-                <span>
-                  <FontAwesomeIcon icon={faHome} />
-                </span>
-                <span>{data?.seeMatch.isInside ? "실내" : "실외"}</span>
-              </div>
-            </SummaryBox>
-            <VsBox>
-              {data.seeMatch.isSingle ? (
-                <>
-                  <MatchInfoProfile
-                    id={data2.seeProfiles[0]?.id}
-                    username={data2.seeProfiles[0].username}
-                    avatar={data2.seeProfiles[0]?.avatar}
-                  />
-                  <img src={vsImg} alt={"vs"} />{" "}
-                  <MatchInfoProfile
-                    id={data2.seeProfiles[1]?.id}
-                    username={data2.seeProfiles[1]?.username}
-                    avatar={data2.seeProfiles[1]?.avatar}
-                  />
-                </>
-              ) : (
-                <>
-                  <MatchInfoProfile
-                    id={data2.seeProfiles[0]?.id}
-                    username={data2.seeProfiles[0]?.username}
-                    avatar={data2.seeProfiles[0]?.avatar}
-                  />
-                  <MatchInfoProfile
-                    id={data2.seeProfiles[1]?.id}
-                    username={data2.seeProfiles[1]?.username}
-                    avatar={data2.seeProfiles[1]?.avatar}
-                  />
-                  <img src={vsImg} alt={"vs"} />{" "}
-                  <MatchInfoProfile
-                    id={data2.seeProfiles[2]?.id}
-                    username={data2.seeProfiles[2]?.username}
-                    avatar={data2.seeProfiles[2]?.avatar}
-                  />
-                  <MatchInfoProfile
-                    id={data2.seeProfiles[3]?.id}
-                    username={data2.seeProfiles[3]?.username}
-                    avatar={data2.seeProfiles[3]?.avatar}
-                  />
-                </>
-              )}
-            </VsBox>
-            <MatchInfoBox>
-              <MatchInfoLeftBox>
-                <span>매치소개</span>
-                <span>{data.seeMatch.title}</span>
+        <>
+          <Helmet>
+            <title>Match</title>
+            <meta property="og:site_name" content="tennis" />
+            <meta property="og:title" content="match" />
+            <meta
+              property="og:url"
+              content="https://tennis-frontend-plum.vercel.app/"
+            />
+            <meta
+              property="og:description"
+              content="tennis web for portfolio"
+            />
+          </Helmet>
+          <Container>
+            <LightBanner url={logo1} />
+            <Content>
+              <SummaryBox>
                 <div>
-                  <FontAwesomeIcon icon={faClock} />{" "}
                   <span>
-                    {data.seeMatch.date} {data.seeMatch.startTime}
+                    <FontAwesomeIcon icon={faCalendar} />
                   </span>
+                  <span>{data?.seeMatch.date}</span>
                 </div>
-                <span>{data.seeMatch.text}</span>
-              </MatchInfoLeftBox>
-              <MatchInfoRightBox>
-                <span>테니스장 이용자 준수사항</span>
                 <div>
-                  <FontAwesomeIcon icon={faTShirt} />
                   <span>
-                    코트입장시에는 필해 운동복, 테니스화를 착용하셔야 하며 볼과
-                    라켓은 대여하지 않습니다
+                    <FontAwesomeIcon icon={faClock} />
+                  </span>
+                  <span>
+                    {data?.seeMatch.startTime} ~ {data?.seeMatch.endTime}
                   </span>
                 </div>
                 <div>
-                  <FontAwesomeIcon icon={faCalendar} />
-                  <span>매칭 날짜 및 시간을 준수해주십시오</span>
+                  <span>
+                    <FontAwesomeIcon icon={faPerson} />
+                  </span>
+                  <span>{data?.seeMatch.isSingle ? "단식" : "복식"}</span>
                 </div>
                 <div>
-                  <FontAwesomeIcon icon={faBan} />{" "}
                   <span>
-                    음주, 또는 항정신성 약물을 투여했다고 판단되는 사람은 안전을
-                    위해 테니스장 출입이 통제됩니다
+                    <FontAwesomeIcon icon={faHome} />
                   </span>
+                  <span>{data?.seeMatch.isInside ? "실내" : "실외"}</span>
                 </div>
-                <div>
-                  <FontAwesomeIcon icon={faTruckMedical} />
-                  <span>
-                    안전사고 발생시 119 신고 및 관리사무실 통보하여 신속한
-                    조치를 취하셔야 합니다
-                  </span>
-                </div>
-                <div>
-                  <FontAwesomeIcon icon={faHeartPulse} />
-                  <span>
-                    심장, 또는 순환기 계통의 질병, 정신질환자, 노약자, 임산부
-                    등은 안전을 위해 테니스장 출입이 제한됩니다
-                  </span>
-                </div>
-              </MatchInfoRightBox>
-            </MatchInfoBox>
-            <LocationBox>
-              <span>매치 장소</span>
-              <Map
-                center={{
-                  lat: data?.seeMatch.lat,
-                  lng: data?.seeMatch.lng,
-                }}
-                style={{ width: "1100px", height: "550px" }}
-                level={6}
-              >
-                <MapMarker
-                  position={{
+              </SummaryBox>
+              <VsBox>
+                {data.seeMatch.isSingle ? (
+                  <>
+                    <MatchInfoProfile
+                      id={data2.seeProfiles[0]?.id}
+                      username={data2.seeProfiles[0].username}
+                      avatar={data2.seeProfiles[0]?.avatar}
+                    />
+                    <img src={vsImg} alt={"vs"} />{" "}
+                    <MatchInfoProfile
+                      id={data2.seeProfiles[1]?.id}
+                      username={data2.seeProfiles[1]?.username}
+                      avatar={data2.seeProfiles[1]?.avatar}
+                    />
+                  </>
+                ) : (
+                  <>
+                    <MatchInfoProfile
+                      id={data2.seeProfiles[0]?.id}
+                      username={data2.seeProfiles[0]?.username}
+                      avatar={data2.seeProfiles[0]?.avatar}
+                    />
+                    <MatchInfoProfile
+                      id={data2.seeProfiles[1]?.id}
+                      username={data2.seeProfiles[1]?.username}
+                      avatar={data2.seeProfiles[1]?.avatar}
+                    />
+                    <img src={vsImg} alt={"vs"} />{" "}
+                    <MatchInfoProfile
+                      id={data2.seeProfiles[2]?.id}
+                      username={data2.seeProfiles[2]?.username}
+                      avatar={data2.seeProfiles[2]?.avatar}
+                    />
+                    <MatchInfoProfile
+                      id={data2.seeProfiles[3]?.id}
+                      username={data2.seeProfiles[3]?.username}
+                      avatar={data2.seeProfiles[3]?.avatar}
+                    />
+                  </>
+                )}
+              </VsBox>
+              <MatchInfoBox>
+                <MatchInfoLeftBox>
+                  <span>매치소개</span>
+                  <span>{data.seeMatch.title}</span>
+                  <div>
+                    <FontAwesomeIcon icon={faClock} />{" "}
+                    <span>
+                      {data.seeMatch.date} {data.seeMatch.startTime}
+                    </span>
+                  </div>
+                  <span>{data.seeMatch.text}</span>
+                </MatchInfoLeftBox>
+                <MatchInfoRightBox>
+                  <span>테니스장 이용자 준수사항</span>
+                  <div>
+                    <FontAwesomeIcon icon={faTShirt} />
+                    <span>
+                      코트입장시에는 필해 운동복, 테니스화를 착용하셔야 하며
+                      볼과 라켓은 대여하지 않습니다
+                    </span>
+                  </div>
+                  <div>
+                    <FontAwesomeIcon icon={faCalendar} />
+                    <span>매칭 날짜 및 시간을 준수해주십시오</span>
+                  </div>
+                  <div>
+                    <FontAwesomeIcon icon={faBan} />{" "}
+                    <span>
+                      음주, 또는 항정신성 약물을 투여했다고 판단되는 사람은
+                      안전을 위해 테니스장 출입이 통제됩니다
+                    </span>
+                  </div>
+                  <div>
+                    <FontAwesomeIcon icon={faTruckMedical} />
+                    <span>
+                      안전사고 발생시 119 신고 및 관리사무실 통보하여 신속한
+                      조치를 취하셔야 합니다
+                    </span>
+                  </div>
+                  <div>
+                    <FontAwesomeIcon icon={faHeartPulse} />
+                    <span>
+                      심장, 또는 순환기 계통의 질병, 정신질환자, 노약자, 임산부
+                      등은 안전을 위해 테니스장 출입이 제한됩니다
+                    </span>
+                  </div>
+                </MatchInfoRightBox>
+              </MatchInfoBox>
+              <LocationBox>
+                <span>매치 장소</span>
+                <Map
+                  center={{
                     lat: data?.seeMatch.lat,
                     lng: data?.seeMatch.lng,
                   }}
-                  image={{
-                    src: "https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png",
-                    size: { width: 24, height: 35 },
-                  }}
-                />
-              </Map>
-            </LocationBox>
-            <CautionBox>
-              <span>매치 이용방법</span>
-              <span>
-                ◾ 매치 1시간전에 매치 참여자가 충족하지 못할 시 매치는 실패
-                처리 됩니다
-              </span>
-              <span>
-                ◾ 매치 2시간 전부터 매치 생성자는 매치에 대한 정보를 수정 및
-                삭제할 수 없으며 참여자는 매치 참여를 취소할 수 없습니다
-              </span>
-              <span>
-                ◾ 매치 종료 후 매치 결과 등록 버튼이 생기며 기간은 최대
-                1주일입니다
-              </span>
-              <span>
-                ◾ 결과 미 등록 및 잘못된 결과 입력시 패널티가 부여됩니다
-              </span>
-            </CautionBox>
-            <Div>
-              {myData?.myProfile?.id ? (
-                data?.seeMatch?.users[0].userId === myData?.myProfile?.id ? (
-                  <Button color={"red"} onClick={onClicked}>
-                    매치 삭제
-                  </Button>
-                ) : isAlreayEnrolled() ? (
-                  <Button color={"red"} onClick={onCancleClicked}>
-                    등록 취소
-                  </Button>
-                ) : !isFull() ? (
-                  <Button color={"green"} onClick={onEnrollClicked}>
-                    매치 등록
-                  </Button>
-                ) : null
-              ) : null}
-            </Div>
-          </Content>
-          <CopyRight>Copyright ⓒ jinhyukSeo777 2023</CopyRight>
-        </Container>
+                  style={{ width: "1100px", height: "550px" }}
+                  level={6}
+                >
+                  <MapMarker
+                    position={{
+                      lat: data?.seeMatch.lat,
+                      lng: data?.seeMatch.lng,
+                    }}
+                    image={{
+                      src: "https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png",
+                      size: { width: 24, height: 35 },
+                    }}
+                  />
+                </Map>
+              </LocationBox>
+              <CautionBox>
+                <span>매치 이용방법</span>
+                <span>
+                  ◾ 매치 1시간전에 매치 참여자가 충족하지 못할 시 매치는 실패
+                  처리 됩니다
+                </span>
+                <span>
+                  ◾ 매치 2시간 전부터 매치 생성자는 매치에 대한 정보를 수정 및
+                  삭제할 수 없으며 참여자는 매치 참여를 취소할 수 없습니다
+                </span>
+                <span>
+                  ◾ 매치 종료 후 매치 결과 등록 버튼이 생기며 기간은 최대
+                  1주일입니다
+                </span>
+                <span>
+                  ◾ 결과 미 등록 및 잘못된 결과 입력시 패널티가 부여됩니다
+                </span>
+              </CautionBox>
+              <Div>
+                {myData?.myProfile?.id ? (
+                  data?.seeMatch?.users[0].userId === myData?.myProfile?.id ? (
+                    <Button color={"red"} onClick={onClicked}>
+                      매치 삭제
+                    </Button>
+                  ) : isAlreayEnrolled() ? (
+                    <Button color={"red"} onClick={onCancleClicked}>
+                      등록 취소
+                    </Button>
+                  ) : !isFull() ? (
+                    <Button color={"green"} onClick={onEnrollClicked}>
+                      매치 등록
+                    </Button>
+                  ) : null
+                ) : null}
+              </Div>
+            </Content>
+            <CopyRight>Copyright ⓒ jinhyukSeo777 2023</CopyRight>
+          </Container>
+        </>
       ) : (
         <Loader />
       )}

@@ -7,6 +7,7 @@ import useUser from "../useUser";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import Loader from "../components/Loader";
+import { Helmet } from "react-helmet-async";
 const person = require("../img/person.png");
 
 const SEE_PROFILE_MUTATION = gql`
@@ -328,147 +329,165 @@ const Profile = () => {
   return (
     <>
       {data !== undefined && data2 !== undefined ? (
-        <Background>
-          <Container>
-            <ProfileHeader>
-              <MyPage>MyPage</MyPage>
-              {id === myData?.myProfile?.id + "" ? (
-                IsEditing ? (
-                  <button
-                    disabled={loading.loading ? true : false}
-                    style={{ opacity: loading.loading ? "0.5" : "1" }}
-                    onClick={() => onClicked()}
-                  >
-                    수정완료
-                  </button>
-                ) : (
-                  <button onClick={() => setIsEditing(true)}>수정하기</button>
-                )
-              ) : null}
-            </ProfileHeader>
-            <ProfileBox>
-              <Div>
-                <Avatar
-                  url={newAvatar ? newAvatar : data.seeProfile.avatar}
-                ></Avatar>
-                {IsEditing ? (
-                  <>
-                    <label
-                      className="signup-profileImg-label"
-                      htmlFor="profileImg"
+        <>
+          <Helmet>
+            <title>Profile</title>
+            <meta property="og:site_name" content="tennis" />
+            <meta property="og:title" content="profile" />
+            <meta
+              property="og:url"
+              content="https://tennis-frontend-plum.vercel.app/"
+            />
+            <meta
+              property="og:description"
+              content="tennis web for portfolio"
+            />
+          </Helmet>
+          <Background>
+            <Container>
+              <ProfileHeader>
+                <MyPage>MyPage</MyPage>
+                {id === myData?.myProfile?.id + "" ? (
+                  IsEditing ? (
+                    <button
+                      disabled={loading.loading ? true : false}
+                      style={{ opacity: loading.loading ? "0.5" : "1" }}
+                      onClick={() => onClicked()}
                     >
-                      프로필 이미지 변경
-                    </label>
-                    <input
-                      style={{ display: "none" }}
-                      type="file"
-                      accept="image/*"
-                      id="profileImg"
-                      onChange={(e: any) => onChange(e)}
-                    />
-                  </>
+                      수정완료
+                    </button>
+                  ) : (
+                    <button onClick={() => setIsEditing(true)}>수정하기</button>
+                  )
                 ) : null}
-                {IsEditing ? (
-                  <>
-                    <Input
-                      {...register("username")}
-                      type="text"
-                      placeholder={myData.myProfile?.username}
+              </ProfileHeader>
+              <ProfileBox>
+                <Div>
+                  <Avatar
+                    url={newAvatar ? newAvatar : data.seeProfile.avatar}
+                  ></Avatar>
+                  {IsEditing ? (
+                    <>
+                      <label
+                        className="signup-profileImg-label"
+                        htmlFor="profileImg"
+                      >
+                        프로필 이미지 변경
+                      </label>
+                      <input
+                        style={{ display: "none" }}
+                        type="file"
+                        accept="image/*"
+                        id="profileImg"
+                        onChange={(e: any) => onChange(e)}
+                      />
+                    </>
+                  ) : null}
+                  {IsEditing ? (
+                    <>
+                      <Input
+                        {...register("username")}
+                        type="text"
+                        placeholder={myData.myProfile?.username}
+                      />
+                      <Input
+                        {...register("email")}
+                        type="text"
+                        placeholder={myData.myProfile?.email}
+                      />
+                    </>
+                  ) : (
+                    <>
+                      <span>{data.seeProfile.username}</span>
+                      <span>{data.seeProfile.email}</span>
+                    </>
+                  )}
+                </Div>
+                <Div>
+                  <span>자기소개</span>
+                  {IsEditing ? (
+                    <textarea
+                      {...register("summary")}
+                      placeholder={myData.myProfile?.summary}
                     />
-                    <Input
-                      {...register("email")}
-                      type="text"
-                      placeholder={myData.myProfile?.email}
-                    />
-                  </>
-                ) : (
-                  <>
-                    <span>{data.seeProfile.username}</span>
-                    <span>{data.seeProfile.email}</span>
-                  </>
-                )}
-              </Div>
-              <Div>
-                <span>자기소개</span>
-                {IsEditing ? (
-                  <textarea
-                    {...register("summary")}
-                    placeholder={myData.myProfile?.summary}
-                  />
-                ) : (
-                  <textarea readOnly value={data.seeProfile.summary}></textarea>
-                )}
-              </Div>
-            </ProfileBox>
-            <ScoreBox>
-              <span>등급</span>
-              <div>
+                  ) : (
+                    <textarea
+                      readOnly
+                      value={data.seeProfile.summary}
+                    ></textarea>
+                  )}
+                </Div>
+              </ProfileBox>
+              <ScoreBox>
+                <span>등급</span>
                 <div>
-                  <span>총 전적</span>
-                  <span>
-                    {data.seeProfile.totalWin}승 {data.seeProfile.totalLose}패
-                  </span>
-                </div>
-                <div>
-                  <span>승점</span>
-                  <span>{data.seeProfile.score}점</span>
-                </div>
-              </div>
-            </ScoreBox>
-            <EnrollMatchBox>
-              <span>등록 매치 현황</span>
-              <div
-                style={{
-                  marginTop: "30px",
-                  backgroundColor: "#e3f0e4",
-                }}
-              >
-                <span>매치 이름</span>
-                <span>매치 타입</span>
-                <span>경기 날짜</span>
-              </div>
-              {data2.seeMatches
-                ?.filter((e: any) => e.date >= dateString)
-                .map((value: any, index: number) => (
-                  <div
-                    key={index}
-                    onClick={() => navigate(`/match/${value.id}`)}
-                  >
-                    <span>{value.title}</span>
-                    <span>{value.isSingle ? "단식" : "복식"}</span>
-                    <span>{value.date}</span>
+                  <div>
+                    <span>총 전적</span>
+                    <span>
+                      {data.seeProfile.totalWin}승 {data.seeProfile.totalLose}패
+                    </span>
                   </div>
-                ))}
-            </EnrollMatchBox>
-            <ResultMatchBox>
-              <span>지난 매치 현황</span>
-              <div
-                style={{
-                  marginTop: "30px",
-                  backgroundColor: "#e3f0e4",
-                }}
-              >
-                {/* <span>승/패</span> */}
-                <span>매치 이름</span>
-                <span>매치 타입</span>
-                <span>경기 날짜</span>
-              </div>
-              {data2.seeMatches
-                ?.filter((e: any) => e.date < dateString)
-                .map((value: any, index: number) => (
-                  <div
-                    key={index}
-                    onClick={() => navigate(`/match/${value.id}`)}
-                  >
-                    <span>{value.title}</span>
-                    <span>{value.isSingle ? "단식" : "복식"}</span>
-                    <span>{value.date}</span>
+                  <div>
+                    <span>승점</span>
+                    <span>{data.seeProfile.score}점</span>
                   </div>
-                ))}
-            </ResultMatchBox>
-          </Container>
-          <CopyRight>Copyright ⓒ jinhyukSeo777 2023</CopyRight>
-        </Background>
+                </div>
+              </ScoreBox>
+              <EnrollMatchBox>
+                <span>등록 매치 현황</span>
+                <div
+                  style={{
+                    marginTop: "30px",
+                    backgroundColor: "#e3f0e4",
+                  }}
+                >
+                  <span>매치 이름</span>
+                  <span>매치 타입</span>
+                  <span>경기 날짜</span>
+                </div>
+                {data2.seeMatches
+                  ?.filter((e: any) => e.date >= dateString)
+                  .map((value: any, index: number) => (
+                    <div
+                      key={index}
+                      onClick={() => navigate(`/match/${value.id}`)}
+                    >
+                      <span>{value.title}</span>
+                      <span>{value.isSingle ? "단식" : "복식"}</span>
+                      <span>{value.date}</span>
+                    </div>
+                  ))}
+              </EnrollMatchBox>
+              <ResultMatchBox>
+                <span>지난 매치 현황</span>
+                <div
+                  style={{
+                    marginTop: "30px",
+                    backgroundColor: "#e3f0e4",
+                  }}
+                >
+                  {/* <span>승/패</span> */}
+                  <span>매치 이름</span>
+                  <span>매치 타입</span>
+                  <span>경기 날짜</span>
+                </div>
+                {data2.seeMatches
+                  ?.filter((e: any) => e.date < dateString)
+                  .map((value: any, index: number) => (
+                    <div
+                      key={index}
+                      onClick={() => navigate(`/match/${value.id}`)}
+                    >
+                      <span>{value.title}</span>
+                      <span>{value.isSingle ? "단식" : "복식"}</span>
+                      <span>{value.date}</span>
+                    </div>
+                  ))}
+              </ResultMatchBox>
+            </Container>
+            <CopyRight>Copyright ⓒ jinhyukSeo777 2023</CopyRight>
+          </Background>
+        </>
       ) : (
         <Loader />
       )}
