@@ -14,8 +14,8 @@ import { gql, useQuery } from "@apollo/client";
 import useUser from "../useUser";
 import { Helmet } from "react-helmet-async";
 import Loader from "../components/Loader";
+import LocationForm from "../components/form/LocationForm";
 const MatchForm = lazy(() => import("../components/form/MatchForm"));
-const LocationForm = lazy(() => import("../components/Loader"));
 const logo4 = require("../img/4.jpg");
 
 const SEARCH_MATCHES_MUTATION = gql`
