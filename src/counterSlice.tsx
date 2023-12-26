@@ -14,6 +14,8 @@ export interface CounterState {
   isEnroll: boolean;
   isLocation: boolean;
   location: LocationInt;
+  isSearchID: boolean;
+  isSearchPW: boolean;
 }
 
 const initialState: CounterState = {
@@ -28,6 +30,8 @@ const initialState: CounterState = {
     lat: 0,
     lng: 0,
   },
+  isSearchID: false,
+  isSearchPW: false,
 };
 
 const counterSlice = createSlice({
@@ -58,6 +62,12 @@ const counterSlice = createSlice({
       };
       state.location = maker;
     },
+    toggleSearchID: (state) => {
+      state.isSearchID = !state.isSearchID;
+    },
+    toggleSearchPW: (state) => {
+      state.isSearchPW = !state.isSearchPW;
+    },
   },
 });
 
@@ -69,6 +79,8 @@ export const {
   toggleEnroll,
   toggleLocation,
   submitLocation,
+  toggleSearchID,
+  toggleSearchPW,
 } = counterSlice.actions;
 
 export default counterSlice.reducer;

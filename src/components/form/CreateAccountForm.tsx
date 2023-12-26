@@ -174,6 +174,7 @@ const KaKaoDiv = styled.div`
 `;
 
 const ErrorMsg = styled.span`
+  display: block;
   color: #df4d4d;
   font-size: 15px;
   font-weight: 600;

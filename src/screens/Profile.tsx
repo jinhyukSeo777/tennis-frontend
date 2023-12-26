@@ -51,12 +51,14 @@ const EDIT_PROFILE_MUTATION = gql`
   mutation Mutation(
     $username: String
     $email: String
+    $password: String
     $summary: String
     $avatar: Upload
   ) {
     editProfile(
       username: $username
       email: $email
+      password: $password
       summary: $summary
       avatar: $avatar
     ) {
@@ -114,7 +116,7 @@ const ProfileBox = styled.div`
   padding: 30px;
 `;
 
-const Div = styled.div`
+const Form = styled.form`
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -249,6 +251,8 @@ interface FormData {
   email: String;
   summary: String;
   file: any;
+  password: String;
+  passwordCheck: String;
 }
 
 const Profile = () => {
@@ -292,13 +296,18 @@ const Profile = () => {
   });
 
   const onClicked = () => {
-    const { username, email, summary } = getValues();
+    const { username, email, summary, password, passwordCheck } = getValues();
+    if (password !== passwordCheck) {
+      window.confirm("비밀번호가 동일하지 않습니다.");
+      return;
+    }
 
     editProfile({
       variables: {
         ...(username !== "" && { username }),
         ...(email !== "" && { email }),
         summary,
+        ...(password !== "" && { password }),
         ...(avatarFile !== undefined && { avatar: avatarFile }),
       },
     });
@@ -362,7 +371,7 @@ const Profile = () => {
                 ) : null}
               </ProfileHeader>
               <ProfileBox>
-                <Div>
+                <Form>
                   <Avatar
                     url={newAvatar ? newAvatar : data.seeProfile.avatar}
                   ></Avatar>
@@ -395,6 +404,18 @@ const Profile = () => {
                         type="text"
                         placeholder={myData.myProfile?.email}
                       />
+                      <Input
+                        {...register("password")}
+                        type="password"
+                        placeholder={"new password"}
+                        autoComplete="off"
+                      />
+                      <Input
+                        {...register("passwordCheck")}
+                        type="password"
+                        placeholder={"new password check"}
+                        autoComplete="off"
+                      />
                     </>
                   ) : (
                     <>
@@ -402,8 +423,8 @@ const Profile = () => {
                       <span>{data.seeProfile.email}</span>
                     </>
                   )}
-                </Div>
-                <Div>
+                </Form>
+                <Form>
                   <span>자기소개</span>
                   {IsEditing ? (
                     <textarea
@@ -416,7 +437,7 @@ const Profile = () => {
                       value={data.seeProfile.summary}
                     ></textarea>
                   )}
-                </Div>
+                </Form>
               </ProfileBox>
               <ScoreBox>
                 <span>등급</span>

@@ -4,7 +4,12 @@ import { faComment, faX } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useForm } from "react-hook-form";
 import { useDispatch } from "react-redux";
-import { toggleLogin } from "../../counterSlice";
+import {
+  toggleCreate,
+  toggleLogin,
+  toggleSearchID,
+  toggleSearchPW,
+} from "../../counterSlice";
 import { gql, useMutation } from "@apollo/client";
 import { logUserIn } from "../../apollo";
 import { useState } from "react";
@@ -36,7 +41,7 @@ export const Overlay = styled(motion.div)`
 
 export const LoginBox = styled.div`
   width: 600px;
-  height: 650px;
+  height: 660px;
   border-radius: 7px;
   background-color: white;
   overflow: scroll;
@@ -68,8 +73,8 @@ export const LoginBoxHeader = styled.div`
 `;
 
 const LoginBoxContent = styled.div`
-  width: 520px;
-  height: 610px;
+  width: 550px;
+  height: 570px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -79,7 +84,7 @@ const LoginBoxContent = styled.div`
 
 const Div = styled.div`
   width: 100%;
-  height: 200px;
+  height: 170px;
   display: flex;
   justify-content: center;
   flex-direction: column;
@@ -107,7 +112,7 @@ const Input = styled.input<{ isvalid: string }>`
   width: 440px;
   height: 50px;
   border-radius: 20px;
-  margin: 10px 0;
+  margin: 10px 0 10px 0;
   border: 1px solid
     ${({ isvalid }) =>
       isvalid === "true"
@@ -139,6 +144,7 @@ const Button = styled.button`
   border: none;
   background-color: #69d802;
   color: white;
+  margin-top: 30px;
 `;
 
 const KaKaoDiv = styled.div`
@@ -161,6 +167,20 @@ const ErrorMsg = styled.span`
   color: #df4d4d;
   font-size: 15px;
   font-weight: 600;
+`;
+
+const SearchDiv = styled.div`
+  width: 440px;
+  display: flex;
+  margin-top: 20px;
+  justify-content: center;
+  align-items: center;
+  span {
+    color: black;
+    margin: 0 5px;
+    cursor: pointer;
+    opacity: 0.9;
+  }
 `;
 
 export const overlayVariants = {
@@ -225,6 +245,21 @@ const LoginForm = () => {
     window.location.href = KAKAO_AUTH_URL;
   };
 
+  const onSearchIDClicked = () => {
+    dispatch(toggleLogin());
+    dispatch(toggleSearchID());
+  };
+
+  const onSearchPWClicked = () => {
+    dispatch(toggleLogin());
+    dispatch(toggleSearchPW());
+  };
+
+  const onCreateAccountClicked = () => {
+    dispatch(toggleLogin());
+    dispatch(toggleCreate());
+  };
+
   return (
     <Overlay
       variants={overlayVariants}
@@ -280,6 +315,13 @@ const LoginForm = () => {
                 카카오 로그인
               </KaKaoDiv>
             </Div>
+            <SearchDiv>
+              <span onClick={onSearchIDClicked}>아이디 찾기</span>
+              <span>|</span>
+              <span onClick={onSearchPWClicked}>비밀번호 찾기</span>
+              <span>|</span>
+              <span onClick={onCreateAccountClicked}>회원가입</span>
+            </SearchDiv>
           </Form>
         </LoginBoxContent>
       </LoginBox>

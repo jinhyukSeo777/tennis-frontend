@@ -9,6 +9,8 @@ import { greenColor } from "../color";
 import { isLoggedInVar, logUserOut } from "../apollo";
 import useUser from "../useUser";
 import CreateAccountForm from "./form/CreateAccountForm";
+import SearchIDForm from "./form/SearchIDForm";
+import SearchPWForm from "./form/SearchPWForm";
 
 const Container = styled.div<{ scrollposition: number; isprofile: number }>`
   width: 100%;
@@ -57,6 +59,8 @@ const Header = () => {
   //Redux
   const login = useSelector((state: RootState) => state.counter.isLogin);
   const create = useSelector((state: RootState) => state.counter.isCreate);
+  const searchID = useSelector((state: RootState) => state.counter.isSearchID);
+  const searchPW = useSelector((state: RootState) => state.counter.isSearchPW);
   const dispatch = useDispatch();
 
   // header backgroundColor change
@@ -123,6 +127,8 @@ const Header = () => {
       </Column>
       {login ? <LoginForm /> : null}
       {create ? <CreateAccountForm /> : null}
+      {searchID ? <SearchIDForm /> : null}
+      {searchPW ? <SearchPWForm /> : null}
     </Container>
   );
 };
