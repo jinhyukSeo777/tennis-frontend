@@ -152,11 +152,10 @@ const DateSelector = ({ dateString }: Prop) => {
 
   const onClicked = (value: any) => {
     const { number, year, month } = value;
-    navigate(
-      `/matching/${year}${month < 10 ? "0" + month : month}${
-        number < 10 ? "0" + number : number
-      }`
-    );
+    const matchUrl = `/matching/${year}${month < 10 ? "0" + month : month}${
+      number < 10 ? "0" + number : number
+    }`;
+    navigate(matchUrl);
   };
 
   return (

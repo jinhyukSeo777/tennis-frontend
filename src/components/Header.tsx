@@ -92,6 +92,9 @@ const Header = () => {
   const number = date.getDate();
   const month = date.getMonth() + 1;
   const year = date.getFullYear();
+  const matchUrl = `/matching/${year}${month < 10 ? "0" + month : month}${
+    number < 10 ? "0" + number : number
+  }`;
 
   return (
     <Container
@@ -103,11 +106,7 @@ const Header = () => {
       </Column>
       <Column>
         <RightSpan onClick={() => navigate("/")}>홈</RightSpan>
-        <RightSpan
-          onClick={() => navigate(`/matching/${year}${month}${number}`)}
-        >
-          매치
-        </RightSpan>
+        <RightSpan onClick={() => navigate(matchUrl)}>매치</RightSpan>
         {/* <RightSpan>대회</RightSpan> */}
         <RightSpan onClick={() => navigate("/ranking")}>랭킹</RightSpan>
         <RightSpan onClick={() => navigate("/community")}>커뮤니티</RightSpan>
