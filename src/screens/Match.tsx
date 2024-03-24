@@ -217,10 +217,7 @@ const Match = () => {
 
   const year = date?.substring(0, 4);
   const month = date?.substring(4, 6);
-  const number =
-    Number(date?.substring(6, 8)) < 10
-      ? `0${date?.substring(6, 8)}`
-      : date?.substring(6, 8);
+  const number = date?.substring(6, 8);
   const dateString = `${year}-${month}-${number}`;
 
   const { data } = useQuery(SEARCH_MATCHES_MUTATION, {
